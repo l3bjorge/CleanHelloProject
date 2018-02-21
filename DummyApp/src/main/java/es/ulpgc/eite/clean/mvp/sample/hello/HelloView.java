@@ -92,7 +92,7 @@ public class HelloView
 
   @Override
   public void showProgressBar() {
-    progressBar.setVisibility(View.GONE);
+    progressBar.setVisibility(View.VISIBLE);
   }
 
   @Override

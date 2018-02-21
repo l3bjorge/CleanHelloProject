@@ -121,6 +121,24 @@ public class HelloPresenter
   @Override
   public void onSayHelloBtnClicked() {
 
+    if (isViewRunning()) {
+
+      getView().showProgressBar();
+
+      // pedir el texto al modelo (TODO: async)
+
+      // hacer invisble el progress bar (aplicar estado)
+
+      // ponerlo en la vista el texto (aplicar estado)
+
+      // hacer visible el texto (aplicar estado)
+
+      // actualizar estado (fijar estado)
+      buttonClicked = true;
+      progressBarVisible =false;
+      textVisible = true;
+
+    }
   }
 
 
