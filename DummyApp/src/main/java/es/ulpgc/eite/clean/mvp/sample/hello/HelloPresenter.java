@@ -1,4 +1,4 @@
-package es.ulpgc.eite.clean.mvp.sample.dummy;
+package es.ulpgc.eite.clean.mvp.sample.hello;
 
 
 import android.content.Context;
@@ -9,10 +9,10 @@ import es.ulpgc.eite.clean.mvp.GenericActivity;
 import es.ulpgc.eite.clean.mvp.GenericPresenter;
 import es.ulpgc.eite.clean.mvp.sample.app.Mediator;
 
-public class DummyPresenter
+public class HelloPresenter
     extends GenericPresenter
-        <Dummy.PresenterToView, Dummy.PresenterToModel, Dummy.ModelToPresenter, DummyModel>
-    implements Dummy.ViewToPresenter, Dummy.ModelToPresenter, Dummy.DummyTo, Dummy.ToDummy {
+        <Hello.PresenterToView, Hello.PresenterToModel, Hello.ModelToPresenter, HelloModel>
+    implements Hello.ViewToPresenter, Hello.ModelToPresenter, Hello.DummyTo, Hello.ToDummy {
 
   private boolean toolbarVisible;
   private boolean buttonClicked;
@@ -27,8 +27,8 @@ public class DummyPresenter
    * @param view The current VIEW instance
    */
   @Override
-  public void onCreate(Dummy.PresenterToView view) {
-    super.onCreate(DummyModel.class, this);
+  public void onCreate(Hello.PresenterToView view) {
+    super.onCreate(HelloModel.class, this);
     setView(view);
     Log.d(TAG, "calling onCreate()");
 
@@ -45,7 +45,7 @@ public class DummyPresenter
    * @param view The current VIEW instance
    */
   @Override
-  public void onResume(Dummy.PresenterToView view) {
+  public void onResume(Hello.PresenterToView view) {
     setView(view);
     Log.d(TAG, "calling onResume()");
 
