@@ -23,6 +23,8 @@ public interface Hello {
 
   interface ToDummy extends State {
     void onScreenStarted();
+    void setProgressBarVisibility(boolean visible);
+    void setButtonClicked(boolean clicked);
   }
 
   interface DummyTo extends State{
@@ -41,6 +43,7 @@ public interface Hello {
    */
   interface ViewToPresenter extends Presenter<PresenterToView> {
     void onButtonClicked();
+    void onSayHelloBtnClicked();
   }
 
   /**
@@ -48,11 +51,16 @@ public interface Hello {
    */
   interface PresenterToView extends ContextView {
     void finishScreen();
+
+    void hideProgressBar();
+    void showProgressBar();
     void hideToolbar();
     void hideText();
     void showText();
     void setText(String txt);
-    void setLabel(String txt);
+    void setSayHelloLabel(String txt);
+
+    void setGoToByeLabel(String txt);
   }
 
   /**
@@ -62,8 +70,9 @@ public interface Hello {
     boolean isNumOfTimesCompleted();
     void changeMsgByBtnClicked();
     String getText();
-    String getLabel();
+    String getSayHelloLabel();
     void resetMsgByBtnClicked();
+    String getGoToByeLabel();
   }
 
   /**

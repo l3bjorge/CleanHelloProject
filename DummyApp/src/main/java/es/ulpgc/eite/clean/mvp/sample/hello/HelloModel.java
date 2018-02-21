@@ -10,7 +10,7 @@ public class HelloModel
 
 
   private String dummyText;
-  private String dummyLabel;
+  private String sayHelloLabel, goToByeLabel;
   private int numOfTimes;
   private int maxNumOfTimes;
   private String msgText;
@@ -27,8 +27,9 @@ public class HelloModel
     super.onCreate(presenter);
     Log.d(TAG, "calling onCreate()");
 
-    dummyLabel = "Click Me!";
-    dummyText = "Hello World!";
+    sayHelloLabel = "Say Hello";
+    goToByeLabel = "Go To Bye!";
+    dummyText = "";
     maxNumOfTimes = 3;
   }
 
@@ -70,14 +71,19 @@ public class HelloModel
   }
 
   @Override
-  public String getLabel() {
-    return dummyLabel;
+  public String getSayHelloLabel() {
+    return sayHelloLabel;
   }
 
   @Override
   public void resetMsgByBtnClicked() {
     numOfTimes = 1;
     msgText = dummyText;
+  }
+
+  @Override
+  public String getGoToByeLabel() {
+    return goToByeLabel;
   }
 
 }

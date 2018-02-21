@@ -15,6 +15,7 @@ public class MediatorApp extends Application implements Mediator.Lifecycle, Medi
   protected final String TAG = this.getClass().getSimpleName();
 
   private DummyState toDummyState, dummyToState;
+  private HelloState toHelloState;
 
   @Override
   public void onCreate() {
@@ -25,6 +26,14 @@ public class MediatorApp extends Application implements Mediator.Lifecycle, Medi
     toDummyState = new DummyState();
     toDummyState.toolbarVisibility = false;
     toDummyState.textVisibility = false;
+
+
+    Log.d(TAG, "calling creatingInitialHelloState()");
+    toHelloState = new HelloState();
+    toHelloState.toolbarVisibility = false;
+    toHelloState.textVisibility = false;
+    toHelloState.buttonClicked = false;
+    toHelloState.progressBarVisibility = false;
   }
 
   ///////////////////////////////////////////////////////////////////////////////////
@@ -35,22 +44,15 @@ public class MediatorApp extends Application implements Mediator.Lifecycle, Medi
 
   @Override
   public void startingScreen(Hello.ToDummy presenter){
-    if(toDummyState != null) {
-      Log.d(TAG, "calling settingInitialState()");
-      presenter.setToolbarVisibility(toDummyState.toolbarVisibility);
-      presenter.setTextVisibility(toDummyState.textVisibility);
+    if(toHelloState != null) {
+      Log.d(TAG, "calling settingInitialHelloState()");
+      presenter.setToolbarVisibility(toHelloState.toolbarVisibility);
+      presenter.setTextVisibility(toHelloState.textVisibility);
+      presenter.setProgressBarVisibility(toHelloState.progressBarVisibility);
+      presenter.setButtonClicked(toHelloState.buttonClicked);
 
-      Log.d(TAG, "calling removingInitialState()");
-      toDummyState = null;
-    }
-
-    if(dummyToState != null) {
-      Log.d(TAG, "calling settingUpdatedState()");
-      presenter.setToolbarVisibility(dummyToState.toolbarVisibility);
-      presenter.setTextVisibility(dummyToState.textVisibility);
-
-      Log.d(TAG, "calling removingUpdateState()");
-      dummyToState = null;
+      Log.d(TAG, "calling removingInitialHelloState()");
+      toHelloState = null;
     }
 
     presenter.onScreenStarted();
@@ -182,5 +184,13 @@ public class MediatorApp extends Application implements Mediator.Lifecycle, Medi
     boolean toolbarVisibility;
     boolean textVisibility;
   }
+
+  private class HelloState {
+    boolean toolbarVisibility;
+    boolean progressBarVisibility;
+    boolean textVisibility;
+    boolean buttonClicked;
+  }
+
 
 }

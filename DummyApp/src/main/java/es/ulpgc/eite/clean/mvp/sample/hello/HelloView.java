@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import es.ulpgc.eite.clean.mvp.GenericActivity;
@@ -18,6 +19,7 @@ public class HelloView
   private Toolbar toolbar;
   private Button btnGoToBye, btnSayHello;
   private TextView text;
+  private ProgressBar progressBar;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class HelloView
     Log.d(TAG, "calling onCreate()");
 
     text = (TextView) findViewById(R.id.txtHello);
+    progressBar = (ProgressBar) findViewById(R.id.pbHello);
 
     toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
@@ -43,7 +46,7 @@ public class HelloView
     btnSayHello.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        getPresenter().onButtonClicked();
+        getPresenter().onSayHelloBtnClicked();
       }
     });
 
@@ -83,6 +86,16 @@ public class HelloView
   }
 
   @Override
+  public void hideProgressBar() {
+    progressBar.setVisibility(View.GONE);
+  }
+
+  @Override
+  public void showProgressBar() {
+    progressBar.setVisibility(View.GONE);
+  }
+
+  @Override
   public void hideToolbar() {
     toolbar.setVisibility(View.GONE);
   }
@@ -103,8 +116,13 @@ public class HelloView
   }
 
   @Override
-  public void setLabel(String txt) {
-    btnGoToBye.setText(txt);
+  public void setSayHelloLabel(String txt) {
     btnSayHello.setText(txt);
+  }
+
+
+  @Override
+  public void setGoToByeLabel(String txt) {
+    btnGoToBye.setText(txt);
   }
 }
