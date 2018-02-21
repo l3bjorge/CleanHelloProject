@@ -16,27 +16,38 @@ public class HelloView
     implements Hello.PresenterToView {
 
   private Toolbar toolbar;
-  private Button button;
+  private Button btnGoToBye, btnSayHello;
   private TextView text;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_dummy);
+    setContentView(R.layout.activity_hello);
     Log.d(TAG, "calling onCreate()");
 
-    text = (TextView) findViewById(R.id.text);
+    text = (TextView) findViewById(R.id.txtHello);
 
     toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
-    button = (Button) findViewById(R.id.button);
-    button.setOnClickListener(new View.OnClickListener() {
+    btnGoToBye = (Button) findViewById(R.id.btnGoToBye);
+    btnGoToBye.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
         getPresenter().onButtonClicked();
       }
     });
+
+
+    btnSayHello = (Button) findViewById(R.id.btnSayHello);
+    btnSayHello.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        getPresenter().onButtonClicked();
+      }
+    });
+
+
   }
 
   /**
@@ -93,6 +104,7 @@ public class HelloView
 
   @Override
   public void setLabel(String txt) {
-    button.setText(txt);
+    btnGoToBye.setText(txt);
+    btnSayHello.setText(txt);
   }
 }
