@@ -1,5 +1,6 @@
 package es.ulpgc.eite.clean.mvp.sample.hello;
 
+import android.os.Handler;
 import android.util.Log;
 
 import es.ulpgc.eite.clean.mvp.GenericModel;
@@ -9,12 +10,13 @@ public class HelloModel
     extends GenericModel<Hello.ModelToPresenter> implements Hello.PresenterToModel {
 
 
-  private String dummyText;
+  //private String dummyText;
   private String sayHelloLabel, goToByeLabel;
-  private int numOfTimes;
-  private int maxNumOfTimes;
+  //private int numOfTimes;
+  //private int maxNumOfTimes;
   private String msgText;
-
+  private boolean taskRunning = false;
+  private boolean taskFinished = false;
 
   /**
    * Method that recovers a reference to the PRESENTER
@@ -29,8 +31,9 @@ public class HelloModel
 
     sayHelloLabel = "Say Hello";
     goToByeLabel = "Go To Bye!";
-    dummyText = "";
-    maxNumOfTimes = 3;
+    //dummyText = "";
+    msgText = "Hello World !";
+    //maxNumOfTimes = 3;
   }
 
   /**
@@ -48,6 +51,37 @@ public class HelloModel
   ///////////////////////////////////////////////////////////////////////////////////
   // Presenter To Model ////////////////////////////////////////////////////////////
 
+
+  @Override
+  public void startHelloGetMessageTask() {
+    if(taskRunning){
+      return;
+    }
+
+    if(taskFinished) {
+      getPresenter().onHelloGetMessageTaskFinished(msgText);
+    } else {
+      taskRunning = true;
+      startDelayedTask();
+    }
+  }
+
+  private void startDelayedTask() {
+    // Mock Bye: A handler to delay the answer
+    new Handler().postDelayed(new Runnable() {
+      @Override
+      public void run() {
+        if(taskRunning) {
+          getPresenter().onHelloGetMessageTaskFinished(msgText);
+          taskRunning = false;
+          taskFinished = true;
+        }
+
+      }
+    }, 10000);
+  }
+
+  /*
   @Override
   public boolean isNumOfTimesCompleted() {
     if(numOfTimes == maxNumOfTimes) {
@@ -65,21 +99,25 @@ public class HelloModel
     numOfTimes++;
   }
 
-  @Override
-  public String getText() {
-    return msgText;
-  }
-
-  @Override
-  public String getSayHelloLabel() {
-    return sayHelloLabel;
-  }
 
   @Override
   public void resetMsgByBtnClicked() {
     numOfTimes = 1;
     msgText = dummyText;
   }
+  */
+
+  @Override
+  public String getText() {
+    return msgText;
+  }
+
+
+  @Override
+  public String getSayHelloLabel() {
+    return sayHelloLabel;
+  }
+
 
   @Override
   public String getGoToByeLabel() {

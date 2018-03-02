@@ -42,7 +42,7 @@ public interface Hello {
    * Methods offered to VIEW to communicate with PRESENTER
    */
   interface ViewToPresenter extends Presenter<PresenterToView> {
-    void onButtonClicked();
+    //void onButtonClicked();
     void onSayHelloBtnClicked();
   }
 
@@ -51,7 +51,6 @@ public interface Hello {
    */
   interface PresenterToView extends ContextView {
     void finishScreen();
-
     void hideProgressBar();
     void showProgressBar();
     void hideToolbar();
@@ -59,7 +58,6 @@ public interface Hello {
     void showText();
     void setText(String txt);
     void setSayHelloLabel(String txt);
-
     void setGoToByeLabel(String txt);
   }
 
@@ -67,11 +65,12 @@ public interface Hello {
    * Methods offered to MODEL to communicate with PRESENTER
    */
   interface PresenterToModel extends Model<ModelToPresenter> {
-    boolean isNumOfTimesCompleted();
-    void changeMsgByBtnClicked();
+    void startHelloGetMessageTask();
+    //boolean isNumOfTimesCompleted();
+    //void changeMsgByBtnClicked();
     String getText();
     String getSayHelloLabel();
-    void resetMsgByBtnClicked();
+    //void resetMsgByBtnClicked();
     String getGoToByeLabel();
   }
 
@@ -80,6 +79,7 @@ public interface Hello {
    */
   interface ModelToPresenter {
 
+    void onHelloGetMessageTaskFinished(String text);
   }
 
 }
