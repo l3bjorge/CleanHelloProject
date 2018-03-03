@@ -97,6 +97,9 @@ public class HelloPresenter
 
   public void onHelloGetMessageTaskFinished(String text){
 
+    getView().setText(text);
+    getView().showText();
+    getView().hideProgressBar();
     // pasar el texto a la vista  (aplicar estado)
 
     // hacer visible el texto (aplicar estado)
@@ -117,6 +120,8 @@ public class HelloPresenter
 
     if (isViewRunning()) {
 
+      getModel().startHelloGetMessageTask();
+      getView().showProgressBar();
       // pedir el texto al modelo asíncronamente
       // al finalizar el modelo llamará a onHelloGetMessageTaskFinished()
 
