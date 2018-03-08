@@ -11,7 +11,7 @@ public class ByeModel
 
 
   //private String dummyText;
-  private String sayHelloLabel, goToByeLabel;
+  private String sayByeLabel, goToHelloLabel;
   //private int numOfTimes;
   //private int maxNumOfTimes;
   private String msgText;
@@ -29,8 +29,8 @@ public class ByeModel
     super.onCreate(presenter);
     Log.d(TAG, "calling onCreate()");
 
-    sayHelloLabel = "Say Bye";
-    goToByeLabel = "Go To Bye!";
+    sayByeLabel = "Say Bye";
+    goToHelloLabel = "Go To Hello!";
     //dummyText = "";
     msgText = "Bye World !";
     //maxNumOfTimes = 3;
@@ -115,13 +115,13 @@ public class ByeModel
 
   @Override
   public String getSayHelloLabel() {
-    return sayHelloLabel;
+    return sayByeLabel;
   }
 
 
   @Override
   public String getGoToByeLabel() {
-    return goToByeLabel;
+    return goToHelloLabel;
   }
 
 }
