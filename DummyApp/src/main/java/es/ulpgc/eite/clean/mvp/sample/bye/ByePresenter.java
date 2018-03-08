@@ -95,20 +95,14 @@ public class ByePresenter
   // Model To Presenter /////////////////////////////////////////////////////////////
 
 
-  public void onHelloGetMessageTaskFinished(String text){
-
-    getView().setText(text);
-    getView().showText();
-    getView().hideProgressBar();
-    // pasar el texto a la vista  (aplicar estado)
-
-    // hacer visible el texto (aplicar estado)
-
-    // hacer invisible el progress bar (aplicar estado)
-
-    // actualizar estado (fijar estado)
-    textVisible = true;
-    progressBarVisible = false;
+  public void onHelloGetMessageTaskFinished(String text) {
+      if (isViewRunning()) {
+          getView().setText(text);
+          getView().showText();
+          getView().hideProgressBar();
+          textVisible = true;
+          progressBarVisible = false;
+      }
   }
 
   ///////////////////////////////////////////////////////////////////////////////////
@@ -116,7 +110,7 @@ public class ByePresenter
 
 
   @Override
-  public void onSayHelloBtnClicked() {
+  public void onSayByeBtnClicked() {
 
     if (isViewRunning()) {
 

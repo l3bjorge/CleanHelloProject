@@ -57,7 +57,7 @@
             android:layout_height="100dp"/>
 
         <ProgressBar
-            android:id="@+id/pbHello"
+            android:id="@+id/pbBye"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"/>
@@ -67,7 +67,7 @@
             android:layout_height="100dp"/>
 
         <TextView
-            android:id="@+id/txtHello"
+            android:id="@+id/txtBye"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/screen_text"

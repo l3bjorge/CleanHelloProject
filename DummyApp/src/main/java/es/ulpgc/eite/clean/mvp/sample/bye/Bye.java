@@ -43,7 +43,7 @@ public interface Bye {
    */
   interface ViewToPresenter extends Presenter<PresenterToView> {
     //void onButtonClicked();
-    void onSayHelloBtnClicked();
+    void onSayByeBtnClicked();
     void onGoToHelloBtnClicked();
   }
 
