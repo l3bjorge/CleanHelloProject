@@ -33,16 +33,16 @@ public class ByeView
     toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
-    btnGoToBye = (Button) findViewById(R.id.btnGoToBye);
+    btnGoToBye = (Button) findViewById(R.id.btnGoToHello);
     btnGoToBye.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        getPresenter().onGoToByeBtnClicked();
+        getPresenter().onGoToHelloBtnClicked();
       }
     });
 
 
-    btnSayHello = (Button) findViewById(R.id.btnSayHello);
+    btnSayHello = (Button) findViewById(R.id.btnSayBye);
     btnSayHello.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {

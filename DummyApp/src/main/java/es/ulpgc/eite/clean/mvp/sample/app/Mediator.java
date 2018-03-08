@@ -30,7 +30,7 @@ public interface Mediator {
     void goToByeScreen(Hello.DummyTo presenter);
 
     void backToPreviousScreen(Bye.DummyTo presenter);
-    void goToNextScreen(Bye.DummyTo presenter);
+    void goToHelloScreen(Bye.DummyTo presenter);
 
   }
 }

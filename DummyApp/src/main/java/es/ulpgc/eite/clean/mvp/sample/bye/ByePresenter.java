@@ -120,14 +120,11 @@ public class ByePresenter
 
     if (isViewRunning()) {
 
+      if (textVisible){
+        getView().hideText();
+      }
       getModel().startHelloGetMessageTask();
       getView().showProgressBar();
-      // pedir el texto al modelo asíncronamente
-      // al finalizar el modelo llamará a onHelloGetMessageTaskFinished()
-
-      // hacer visible el progress bar (aplicar estado)
-
-      // actualizar estado (fijar estado)
       buttonClicked = true;
       progressBarVisible = true;
 
@@ -135,20 +132,12 @@ public class ByePresenter
   }
 
   @Override
-  public void onGoToByeBtnClicked() {
+  public void onGoToHelloBtnClicked() {
 
     if (isViewRunning()) {
 
-      getModel().startHelloGetMessageTask();
-      getView().showProgressBar();
-      // pedir el texto al modelo asíncronamente
-      // al finalizar el modelo llamará a onHelloGetMessageTaskFinished()
-
-      // hacer visible el progress bar (aplicar estado)
-
-      // actualizar estado (fijar estado)
-      buttonClicked = true;
-      progressBarVisible = true;
+      Mediator.Navigation mediator = (Mediator.Navigation) getApplication();
+      mediator.goToHelloScreen(this);
 
     }
   }

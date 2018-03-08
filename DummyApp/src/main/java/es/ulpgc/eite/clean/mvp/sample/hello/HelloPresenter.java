@@ -120,14 +120,11 @@ public class HelloPresenter
 
     if (isViewRunning()) {
 
+      if (textVisible){
+        getView().hideText();
+      }
       getModel().startHelloGetMessageTask();
       getView().showProgressBar();
-      // pedir el texto al modelo asíncronamente
-      // al finalizar el modelo llamará a onHelloGetMessageTaskFinished()
-
-      // hacer visible el progress bar (aplicar estado)
-
-      // actualizar estado (fijar estado)
       buttonClicked = true;
       progressBarVisible = true;
 

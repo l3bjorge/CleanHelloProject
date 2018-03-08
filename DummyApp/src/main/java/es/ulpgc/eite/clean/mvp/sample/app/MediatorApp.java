@@ -10,6 +10,7 @@ import es.ulpgc.eite.clean.mvp.sample.bye.ByeView;
 import es.ulpgc.eite.clean.mvp.sample.dummy.Dummy;
 import es.ulpgc.eite.clean.mvp.sample.dummy.DummyView;
 import es.ulpgc.eite.clean.mvp.sample.hello.Hello;
+import es.ulpgc.eite.clean.mvp.sample.hello.HelloView;
 
 
 public class MediatorApp extends Application implements Mediator.Lifecycle, Mediator.Navigation {
@@ -18,7 +19,7 @@ public class MediatorApp extends Application implements Mediator.Lifecycle, Medi
 
   private DummyState toDummyState, dummyToState;
   private HelloState toHelloState, helloToState;
-  private ByeState toByeState;
+  private ByeState toByeState, byeToState;
 
   @Override
   public void onCreate() {
@@ -204,17 +205,16 @@ public class MediatorApp extends Application implements Mediator.Lifecycle, Medi
   }
 
   @Override
-  public void goToNextScreen(Bye.DummyTo presenter) {
+  public void goToHelloScreen(Bye.DummyTo presenter) {
     Log.d(TAG, "calling savingUpdatedState()");
-    dummyToState = new DummyState();
-    dummyToState.toolbarVisibility = presenter.isToolbarVisible();
-    //dummyToState.textVisibility = presenter.isTextVisible();
-    dummyToState.textVisibility = false;
+    byeToState = new ByeState();
+    byeToState.toolbarVisibility = presenter.isToolbarVisible();
+    byeToState.textVisibility = presenter.isTextVisible();
 
     Context view = presenter.getManagedContext();
     if (view != null) {
       Log.d(TAG, "calling startingNextScreen()");
-      view.startActivity(new Intent(view, DummyView.class));
+      view.startActivity(new Intent(view, HelloView.class));
       //Log.d(TAG, "calling finishingCurrentScreen()");
       //presenter.destroyView();
     }

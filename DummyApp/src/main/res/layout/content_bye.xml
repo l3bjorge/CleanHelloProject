@@ -33,7 +33,7 @@
 
 
             <Button
-                android:id="@+id/btnSayHello"
+                android:id="@+id/btnSayBye"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/fab_margin"
@@ -42,7 +42,7 @@
 
 
             <Button
-                android:id="@+id/btnGoToBye"
+                android:id="@+id/btnGoToHello"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/fab_margin"
