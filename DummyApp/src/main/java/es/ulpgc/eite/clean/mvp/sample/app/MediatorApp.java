@@ -10,7 +10,6 @@ import es.ulpgc.eite.clean.mvp.sample.bye.ByeView;
 import es.ulpgc.eite.clean.mvp.sample.dummy.Dummy;
 import es.ulpgc.eite.clean.mvp.sample.dummy.DummyView;
 import es.ulpgc.eite.clean.mvp.sample.hello.Hello;
-import es.ulpgc.eite.clean.mvp.sample.hello.HelloView;
 
 
 public class MediatorApp extends Application implements Mediator.Lifecycle, Mediator.Navigation {
@@ -18,8 +17,9 @@ public class MediatorApp extends Application implements Mediator.Lifecycle, Medi
   protected final String TAG = this.getClass().getSimpleName();
 
   private DummyState toDummyState, dummyToState;
-  private HelloState toHelloState, helloToState;
-  private ByeState toByeState, byeToState;
+  private HelloState toHelloState;
+  private HelloState byeToHelloState;
+  private ByeState  helloToByeState;
 
   @Override
   public void onCreate() {
@@ -38,23 +38,40 @@ public class MediatorApp extends Application implements Mediator.Lifecycle, Medi
     toHelloState.textVisibility = false;
     toHelloState.buttonClicked = false;
     toHelloState.progressBarVisibility = false;
-
-    Log.d(TAG, "calling creatingInitialByeState()");
-    toByeState = new ByeState();
-    toByeState.toolbarVisibility = false;
-    toByeState.textVisibility = false;
-    toByeState.buttonClicked = false;
-    toByeState.progressBarVisibility = false;
   }
 
   ///////////////////////////////////////////////////////////////////////////////////
   // Lifecycle /////////////////////////////////////////////////////////////////////
 
 
+  // Bye Screen
+
+  @Override
+  public void startingScreen(Bye.HelloToBye presenter){
+    if(helloToByeState != null) {
+      Log.d(TAG, "calling settingInitialByeState()");
+      presenter.setToolbarVisibility(helloToByeState.toolbarVisibility);
+      //presenter.setTextVisibility(helloToByeState.textVisibility);
+      presenter.setHelloTextVisibility(helloToByeState.textHelloVisibility);
+      presenter.setTextVisibility(false);
+      //presenter.setProgressBarVisibility(helloToByeState.progressBarVisibility);
+      presenter.setProgressBarVisibility(false);
+      //presenter.setButtonClicked(helloToByeState.buttonClicked);
+      presenter.setButtonClicked(false);
+      presenter.setHelloText(helloToByeState.textHello);
+
+      Log.d(TAG, "calling removingInitialByeState()");
+      helloToByeState = null;
+    }
+
+    presenter.onScreenStarted();
+  }
+
+
   // Hello Screen
 
   @Override
-  public void startingScreen(Hello.ToDummy presenter){
+  public void startingScreen(Hello.ToHello presenter){
     if(toHelloState != null) {
       Log.d(TAG, "calling settingInitialHelloState()");
       presenter.setToolbarVisibility(toHelloState.toolbarVisibility);
@@ -69,56 +86,23 @@ public class MediatorApp extends Application implements Mediator.Lifecycle, Medi
     presenter.onScreenStarted();
   }
 
-
-  @Override
-  public void resumingScreen(Hello.DummyTo presenter){
-    if(dummyToState != null) {
+    @Override
+  public void resumingScreen(Hello.ByeToHello presenter){
+    if(byeToHelloState != null) {
       Log.d(TAG, "calling resumingScreen()");
       Log.d(TAG, "calling restoringUpdatedState()");
-      presenter.setToolbarVisibility(dummyToState.toolbarVisibility);
-      presenter.setTextVisibility(dummyToState.textVisibility);
+      presenter.setToolbarVisibility(byeToHelloState.toolbarVisibility);
+      presenter.setTextVisibility(byeToHelloState.textVisibility);
+      presenter.setByeTextVisibility(byeToHelloState.textByeVisibility);
+      presenter.setByeText(byeToHelloState.textBye);
+
 
       Log.d(TAG, "calling removingUpdatedState()");
-      dummyToState = null;
+      byeToHelloState = null;
     }
 
     presenter.onScreenResumed();
   }
-
-  // Bye Screen
-
-  @Override
-  public void startingScreen(Bye.ToDummy presenter){
-    if(toByeState != null) {
-      Log.d(TAG, "calling settingInitialHelloState()");
-      presenter.setToolbarVisibility(toByeState.toolbarVisibility);
-      presenter.setTextVisibility(toByeState.textVisibility);
-      presenter.setProgressBarVisibility(toByeState.progressBarVisibility);
-      presenter.setButtonClicked(toByeState.buttonClicked);
-
-      Log.d(TAG, "calling removingInitialHelloState()");
-      toByeState = null;
-    }
-
-    presenter.onScreenStarted();
-  }
-
-
-  @Override
-  public void resumingScreen(Bye.DummyTo presenter){
-    if(dummyToState != null) {
-      Log.d(TAG, "calling resumingScreen()");
-      Log.d(TAG, "calling restoringUpdatedState()");
-      presenter.setToolbarVisibility(dummyToState.toolbarVisibility);
-      presenter.setTextVisibility(dummyToState.textVisibility);
-
-      Log.d(TAG, "calling removingUpdatedState()");
-      dummyToState = null;
-    }
-
-    presenter.onScreenResumed();
-  }
-
 
   // Dummy Screen
 
@@ -166,22 +150,40 @@ public class MediatorApp extends Application implements Mediator.Lifecycle, Medi
   // Navigation ////////////////////////////////////////////////////////////////////
 
 
+  // Bye Screen
+
+  @Override
+  public void goToHelloScreen(Bye.ByeToHello presenter) {
+    Log.d(TAG, "calling savingUpdatedState()");
+    byeToHelloState = new HelloState();
+      byeToHelloState.toolbarVisibility = presenter.isToolbarVisible();
+      byeToHelloState.textVisibility = presenter.isTextVisible();
+      byeToHelloState.textBye = presenter.getText();
+      byeToHelloState.textByeVisibility = presenter.isTextVisible();
+
+
+    Context view = presenter.getManagedContext();
+    if (view != null) {
+      //Log.d(TAG, "calling startingHelloScreen()");
+      //view.startActivity(new Intent(view, HelloView.class));
+      Log.d(TAG, "calling finishingCurrentScreen()");
+      presenter.destroyView();
+    }
+
+  }
+
+
   // Hello Screen
 
   @Override
-  public void backToPreviousScreen(Hello.DummyTo presenter) {
+  public void goToByeScreen(Hello.HelloToBye presenter) {
     Log.d(TAG, "calling savingUpdatedState()");
-    dummyToState = new DummyState();
-    dummyToState.textVisibility = true;
-    dummyToState.toolbarVisibility = false;
-  }
+    helloToByeState = new ByeState();
+    helloToByeState.toolbarVisibility = presenter.isToolbarVisible();
+    helloToByeState.textVisibility = presenter.isTextVisible();
+    helloToByeState.textHello = presenter.getText();
+    helloToByeState.textHelloVisibility = presenter.isTextVisible();
 
-  @Override
-  public void goToByeScreen(Hello.DummyTo presenter) {
-    Log.d(TAG, "calling savingUpdatedState()");
-    helloToState = new HelloState();
-    helloToState.toolbarVisibility = presenter.isToolbarVisible();
-    helloToState.textVisibility = presenter.isTextVisible();
 
     Context view = presenter.getManagedContext();
     if (view != null) {
@@ -192,36 +194,6 @@ public class MediatorApp extends Application implements Mediator.Lifecycle, Medi
     }
 
   }
-
-
-  // Bye Screen
-
-  @Override
-  public void backToPreviousScreen(Bye.DummyTo presenter) {
-    Log.d(TAG, "calling savingUpdatedState()");
-    dummyToState = new DummyState();
-    dummyToState.textVisibility = true;
-    dummyToState.toolbarVisibility = false;
-  }
-
-  @Override
-  public void goToHelloScreen(Bye.DummyTo presenter) {
-    Log.d(TAG, "calling savingUpdatedState()");
-    byeToState = new ByeState();
-    byeToState.toolbarVisibility = presenter.isToolbarVisible();
-    byeToState.textVisibility = presenter.isTextVisible();
-
-    Context view = presenter.getManagedContext();
-    if (view != null) {
-      Log.d(TAG, "calling startingNextScreen()");
-      view.startActivity(new Intent(view, HelloView.class));
-      //Log.d(TAG, "calling finishingCurrentScreen()");
-      //presenter.destroyView();
-    }
-
-  }
-
-
 
   // Dummy Screen
 
@@ -251,8 +223,6 @@ public class MediatorApp extends Application implements Mediator.Lifecycle, Medi
 
   }
 
-
-
   ///////////////////////////////////////////////////////////////////////////////////
   // State /////////////////////////////////////////////////////////////////////////
 
@@ -266,14 +236,13 @@ public class MediatorApp extends Application implements Mediator.Lifecycle, Medi
     boolean progressBarVisibility;
     boolean textVisibility;
     boolean buttonClicked;
+    String textBye;
+    boolean textByeVisibility;
   }
 
-  private class ByeState {
-    boolean toolbarVisibility;
-    boolean progressBarVisibility;
-    boolean textVisibility;
-    boolean buttonClicked;
+  private class ByeState extends HelloState {
+    boolean textHelloVisibility;
+    String textHello;
   }
-
 
 }

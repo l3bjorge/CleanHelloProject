@@ -10,11 +10,11 @@ import es.ulpgc.eite.clean.mvp.GenericPresenter;
 import es.ulpgc.eite.clean.mvp.sample.app.Mediator;
 
 public class HelloPresenter
-    extends GenericPresenter
-    <Hello.PresenterToView, Hello.PresenterToModel, Hello.ModelToPresenter, HelloModel>
-    implements Hello.ViewToPresenter, Hello.ModelToPresenter, Hello.DummyTo, Hello.ToDummy {
+    extends GenericPresenter<Hello.PresenterToView, Hello.PresenterToModel, Hello.ModelToPresenter, HelloModel>
+    implements Hello.ViewToPresenter, Hello.ModelToPresenter, Hello.HelloToBye, Hello.ToHello, Hello.ByeToHello {
 
-  private boolean toolbarVisible, buttonClicked, textVisible, progressBarVisible;
+  private boolean toolbarVisible, buttonClicked, textVisible, progressBarVisible, textByeVisible;
+  private String textBye;
 
   /**
    * Operation called during VIEW creation in {@link GenericActivity#onResume(Class, Object)}
@@ -30,16 +30,9 @@ public class HelloPresenter
     setView(view);
     Log.d(TAG, "calling onCreate()");
 
-    /*
-    toolbarVisible = false;
-    buttonClicked = false;
-    textVisible = false;
-    progressBarVisible = false;
-    */
-
     Log.d(TAG, "calling startingScreen()");
     Mediator.Lifecycle mediator = (Mediator.Lifecycle) getApplication();
-    mediator.startingScreen(this);
+          mediator.startingScreen(this);
 
   }
 
@@ -67,9 +60,6 @@ public class HelloPresenter
   public void onBackPressed() {
     Log.d(TAG, "calling onBackPressed()");
 
-    Log.d(TAG, "calling backToPreviousScreen()");
-    Mediator.Navigation mediator = (Mediator.Navigation) getApplication();
-    mediator.backToPreviousScreen(this);
   }
 
   /**
@@ -95,13 +85,26 @@ public class HelloPresenter
   // Model To Presenter /////////////////////////////////////////////////////////////
 
 
-  public void onHelloGetMessageTaskFinished(String text) {
-    if (isViewRunning()) {
+  public void onHelloGetMessageTaskFinished(String text){
+
+    if(isViewRunning()) {
+      // pasar el texto a la vista  (aplicar estado)
       getView().setText(text);
+
+      // hacer visible el texto (aplicar estado)
       getView().showText();
-      getView().hideProgressBar();
+
+      // actualizar estado (fijar estado)
       textVisible = true;
-      progressBarVisible = false;
+
+      if (progressBarVisible) {
+        // hacer invisible el progress bar (aplicar estado)
+        getView().hideProgressBar();
+
+        // actualizar estado (fijar estado)
+        progressBarVisible = false;
+      }
+
     }
   }
 
@@ -113,11 +116,31 @@ public class HelloPresenter
   public void onSayHelloBtnClicked() {
 
     if (isViewRunning()) {
-      getView().hideText();
-      getModel().startHelloGetMessageTask();
-      getView().showProgressBar();
+
+      if(buttonClicked) {
+        /// TODO: 13/3/18  Volver a solicitar datos async al modelo ?
+      }
+
       buttonClicked = true;
-      progressBarVisible = true;
+
+      if (textVisible) {
+        getView().hideText();
+
+        textVisible = false;
+      }
+
+      // pedir el texto al modelo asíncronamente
+      // al finalizar el modelo llamará a onByeGetMessageTaskFinished()
+      getModel().startHelloGetMessageTask();
+
+      if(!progressBarVisible) {
+
+        // hacer visible el progress bar (aplicar estado)
+        getView().showProgressBar();
+
+        // actualizar estado (fijar estado)
+        progressBarVisible = true;
+      }
 
     }
   }
@@ -125,14 +148,12 @@ public class HelloPresenter
   @Override
   public void onGoToByeBtnClicked() {
 
-    if (isViewRunning()) {
+    // pedir al mediador que inicie la pantalla de bye
 
-      Mediator.Navigation mediator = (Mediator.Navigation) getApplication();
-      mediator.goToByeScreen(this);
-
-    }
+    Log.d(TAG, "calling startingScreen()");
+    Mediator.Navigation mediator = (Mediator.Navigation) getApplication();
+    mediator.goToByeScreen(this);
   }
-
 
 
   /*
@@ -196,13 +217,32 @@ public class HelloPresenter
   }
 
   @Override
+  public void setByeTextVisibility(boolean visible) {
+    textByeVisible = visible;
+  }
+
+  @Override
+  public void setByeText(String text) {
+    textBye = text;
+  }
+
+  @Override
   public void onScreenResumed() {
     Log.d(TAG, "calling onScreenResumed()");
 
     setCurrentState();
-    if (buttonClicked) {
-      getView().setText(getModel().getText());
-    }
+
+      if (isViewRunning()){
+          if (textByeVisible) {
+              getView().showText();
+              getView().setText(textBye);
+          }
+      }
+  }
+
+  @Override
+  public String getText() {
+    return getModel().getText();
   }
 
 
@@ -254,6 +294,8 @@ public class HelloPresenter
     if (isViewRunning()) {
       if (!progressBarVisible) {
         getView().hideProgressBar();
+      } else {
+        getView().showProgressBar();
       }
     }
   }

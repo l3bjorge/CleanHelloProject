@@ -21,18 +21,21 @@ public interface Bye {
     void setTextVisibility(boolean visible);
   }
 
-  interface ToDummy extends State {
+  interface HelloToBye extends State {
     void onScreenStarted();
     void setProgressBarVisibility(boolean visible);
     void setButtonClicked(boolean clicked);
+    void setHelloTextVisibility(boolean visible);
+    void setHelloText(String textHello);
   }
 
-  interface DummyTo extends State{
+  interface ByeToHello extends State{
     Context getManagedContext();
     void destroyView();
     boolean isToolbarVisible();
     boolean isTextVisible();
     void onScreenResumed();
+    String getText();
   }
 
   ///////////////////////////////////////////////////////////////////////////////////
@@ -44,7 +47,7 @@ public interface Bye {
   interface ViewToPresenter extends Presenter<PresenterToView> {
     //void onButtonClicked();
     void onSayByeBtnClicked();
-    void onGoToHelloBtnClicked();
+    void onBackToHelloBtnClicked();
   }
 
   /**
@@ -58,8 +61,8 @@ public interface Bye {
     void hideText();
     void showText();
     void setText(String txt);
-    void setSayHelloLabel(String txt);
-    void setGoToByeLabel(String txt);
+    void setSayByeLabel(String txt);
+    void setBackToHelloLabel(String txt);
   }
 
   /**
@@ -67,12 +70,14 @@ public interface Bye {
    */
   interface PresenterToModel extends Model<ModelToPresenter> {
     void startHelloGetMessageTask();
-    //boolean isNumOfTimesCompleted();
-    //void changeMsgByBtnClicked();
+
+    boolean isTaskRunning();
+
+    boolean isTaskFinished();
+
     String getText();
-    String getSayHelloLabel();
-    //void resetMsgByBtnClicked();
-    String getGoToByeLabel();
+    String getSayByeLabel();
+    String getBackToHelloLabel();
   }
 
   /**
@@ -80,7 +85,7 @@ public interface Bye {
    */
   interface ModelToPresenter {
 
-    void onHelloGetMessageTaskFinished(String text);
+    void onByeGetMessageTaskFinished(String text);
   }
 
 }

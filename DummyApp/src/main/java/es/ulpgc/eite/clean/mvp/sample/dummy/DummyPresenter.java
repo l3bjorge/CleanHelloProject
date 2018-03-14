@@ -10,8 +10,7 @@ import es.ulpgc.eite.clean.mvp.GenericPresenter;
 import es.ulpgc.eite.clean.mvp.sample.app.Mediator;
 
 public class DummyPresenter
-    extends GenericPresenter
-        <Dummy.PresenterToView, Dummy.PresenterToModel, Dummy.ModelToPresenter, DummyModel>
+    extends GenericPresenter<Dummy.PresenterToView, Dummy.PresenterToModel, Dummy.ModelToPresenter, DummyModel>
     implements Dummy.ViewToPresenter, Dummy.ModelToPresenter, Dummy.DummyTo, Dummy.ToDummy {
 
   private boolean toolbarVisible;
@@ -129,7 +128,7 @@ public class DummyPresenter
 
 
   ///////////////////////////////////////////////////////////////////////////////////
-  // To Hello //////////////////////////////////////////////////////////////////////
+  // To Bye //////////////////////////////////////////////////////////////////////
 
   @Override
   public void onScreenStarted() {
@@ -149,7 +148,7 @@ public class DummyPresenter
 
 
   ///////////////////////////////////////////////////////////////////////////////////
-  // Hello To //////////////////////////////////////////////////////////////////////
+  // Bye To //////////////////////////////////////////////////////////////////////
 
 
   @Override

@@ -17,7 +17,7 @@ public class ByeView
     implements Bye.PresenterToView {
 
   private Toolbar toolbar;
-  private Button btnGoToHello, btnSayBye;
+  private Button btnBackToHello, btnSayBye;
   private TextView text;
   private ProgressBar progressBar;
 
@@ -33,11 +33,11 @@ public class ByeView
     toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
-    btnGoToHello = (Button) findViewById(R.id.btnGoToHello);
-    btnGoToHello.setOnClickListener(new View.OnClickListener() {
+    btnBackToHello = (Button) findViewById(R.id.btnGoToHello);
+    btnBackToHello.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        getPresenter().onGoToHelloBtnClicked();
+        getPresenter().onBackToHelloBtnClicked();
       }
     });
 
@@ -116,13 +116,13 @@ public class ByeView
   }
 
   @Override
-  public void setSayHelloLabel(String txt) {
+  public void setSayByeLabel(String txt) {
     btnSayBye.setText(txt);
   }
 
 
   @Override
-  public void setGoToByeLabel(String txt) {
-    btnGoToHello.setText(txt);
+  public void setBackToHelloLabel(String txt) {
+    btnBackToHello.setText(txt);
   }
 }

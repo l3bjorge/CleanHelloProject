@@ -9,11 +9,7 @@ import es.ulpgc.eite.clean.mvp.GenericModel;
 public class ByeModel
     extends GenericModel<Bye.ModelToPresenter> implements Bye.PresenterToModel {
 
-
-  //private String dummyText;
-  private String sayByeLabel, goToHelloLabel;
-  //private int numOfTimes;
-  //private int maxNumOfTimes;
+  private String sayByeLabel, backToHelloLabel;
   private String msgText;
   private boolean taskRunning = false;
   private boolean taskFinished = false;
@@ -30,10 +26,8 @@ public class ByeModel
     Log.d(TAG, "calling onCreate()");
 
     sayByeLabel = "Say Bye";
-    goToHelloLabel = "Go To Hello!";
-    //dummyText = "";
+    backToHelloLabel = "Back To Hello!";
     msgText = "Bye World !";
-    //maxNumOfTimes = 3;
   }
 
   /**
@@ -54,12 +48,12 @@ public class ByeModel
 
   @Override
   public void startHelloGetMessageTask() {
-    if(taskRunning){
+    if(isTaskRunning()){
       return;
     }
 
-    if(taskFinished) {
-      getPresenter().onHelloGetMessageTaskFinished(msgText);
+    if(isTaskFinished()) {
+      getPresenter().onByeGetMessageTaskFinished(msgText);
     } else {
       taskRunning = true;
       startDelayedTask();
@@ -71,41 +65,27 @@ public class ByeModel
     new Handler().postDelayed(new Runnable() {
       @Override
       public void run() {
-        if(taskRunning) {
-          getPresenter().onHelloGetMessageTaskFinished(msgText);
+        if(isTaskRunning()) {
+          getPresenter().onByeGetMessageTaskFinished(msgText);
           taskRunning = false;
           taskFinished = true;
         }
 
       }
-    }, 10000);
-  }
-
-  /*
-  @Override
-  public boolean isNumOfTimesCompleted() {
-    if(numOfTimes == maxNumOfTimes) {
-      return true;
-    }
-    return false;
+    }, 5000);
   }
 
   @Override
-  public void changeMsgByBtnClicked() {
-    msgText = dummyText;
-    if(numOfTimes > 0) {
-      msgText += ", " + (numOfTimes + 1) + " times";
-    }
-    numOfTimes++;
+  public boolean isTaskRunning() {
+    return taskRunning;
   }
-
 
   @Override
-  public void resetMsgByBtnClicked() {
-    numOfTimes = 1;
-    msgText = dummyText;
+  public boolean isTaskFinished() {
+
+    return taskFinished;
   }
-  */
+
 
   @Override
   public String getText() {
@@ -114,14 +94,14 @@ public class ByeModel
 
 
   @Override
-  public String getSayHelloLabel() {
+  public String getSayByeLabel() {
     return sayByeLabel;
   }
 
 
   @Override
-  public String getGoToByeLabel() {
-    return goToHelloLabel;
+  public String getBackToHelloLabel() {
+    return backToHelloLabel;
   }
 
 }
