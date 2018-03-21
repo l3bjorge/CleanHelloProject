@@ -8,12 +8,13 @@ import es.ulpgc.eite.clean.mvp.ContextView;
 import es.ulpgc.eite.clean.mvp.GenericActivity;
 import es.ulpgc.eite.clean.mvp.GenericPresenter;
 import es.ulpgc.eite.clean.mvp.sample.app.Mediator;
+import es.ulpgc.eite.clean.mvp.sample.app.MediatorApp;
 
 public class HelloPresenter
     extends GenericPresenter<Hello.PresenterToView, Hello.PresenterToModel, Hello.ModelToPresenter, HelloModel>
     implements Hello.ViewToPresenter, Hello.ModelToPresenter, Hello.HelloToBye, Hello.ToHello, Hello.ByeToHello {
 
-  private boolean toolbarVisible, buttonClicked, textVisible, progressBarVisible, textByeVisible;
+  private boolean toolbarVisible, buttonClicked, textVisible, progressBarVisible, textByeVisible, buttonByeClicked;
   private String textBye;
 
   /**
@@ -87,6 +88,11 @@ public class HelloPresenter
 
   public void onHelloGetMessageTaskFinished(String text){
 
+    if(buttonByeClicked){
+      Mediator.Navigation mediator = (Mediator.Navigation) getApplication();
+      mediator.updateState(text);
+
+    }
     if(isViewRunning()) {
       // pasar el texto a la vista  (aplicar estado)
       getView().setText(text);
@@ -150,9 +156,11 @@ public class HelloPresenter
 
     // pedir al mediador que inicie la pantalla de bye
 
+    buttonByeClicked = true;
     Log.d(TAG, "calling startingScreen()");
     Mediator.Navigation mediator = (Mediator.Navigation) getApplication();
     mediator.goToByeScreen(this);
+
   }
 
 

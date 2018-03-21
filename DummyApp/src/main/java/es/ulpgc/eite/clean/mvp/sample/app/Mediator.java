@@ -27,6 +27,7 @@ public interface Mediator {
 
     void goToByeScreen(Hello.HelloToBye presenter);
     void goToHelloScreen(Bye.ByeToHello presenter);
+    void updateState(String text);
 
   }
 }

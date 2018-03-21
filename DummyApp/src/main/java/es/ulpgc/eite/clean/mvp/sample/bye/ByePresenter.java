@@ -198,6 +198,15 @@ public class ByePresenter
     }
   }
 
+  public void updateText() {
+    if (isViewRunning()){
+      if (textHelloVisible) {
+        getView().showText();
+        getView().setText(textHello);
+      }
+    }
+  }
+
   @Override
   public void setProgressBarVisibility(boolean visible) {
     progressBarVisible = visible;

@@ -20,6 +20,7 @@ public class MediatorApp extends Application implements Mediator.Lifecycle, Medi
   private HelloState toHelloState;
   private HelloState byeToHelloState;
   private ByeState  helloToByeState;
+  private Bye.HelloToBye byePresenter;
 
   @Override
   public void onCreate() {
@@ -65,6 +66,7 @@ public class MediatorApp extends Application implements Mediator.Lifecycle, Medi
     }
 
     presenter.onScreenStarted();
+    byePresenter = presenter;
   }
 
 
@@ -172,6 +174,13 @@ public class MediatorApp extends Application implements Mediator.Lifecycle, Medi
 
   }
 
+  @Override
+  public void updateState(String text) {
+    byePresenter.setHelloText(text);
+    byePresenter.setHelloTextVisibility(true);
+    byePresenter.updateText();
+    byePresenter = null;
+  }
 
   // Hello Screen
 

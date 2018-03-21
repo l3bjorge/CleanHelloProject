@@ -27,6 +27,7 @@ public interface Bye {
     void setButtonClicked(boolean clicked);
     void setHelloTextVisibility(boolean visible);
     void setHelloText(String textHello);
+    void updateText();
   }
 
   interface ByeToHello extends State{
